@@ -175,10 +175,10 @@ assets = [
     { source = "../deployment/deb/_goxlr-daemon", dest = "/usr/share/zsh/vendor-completions/_goxlr-daemon", mode = "0644" },
 ]
 
-# Tiny scriptlet, should reload udev, unless we are running an immutable OS like Fedora Silverblue.
+# Tiny scriptlet, should reload udev if possible.
 post_install_script = """
-[[ -f /run/ostree-booted ]] || udevadm control --reload-rules
-[[ -f /run/ostree-booted ]] || udevadm trigger
+udevadm control --reload-rules || echo -e "\\033[0;31mReloading udev failed. You might need to reboot after installation.\\033[0m" 1>&2
+udevadm trigger || echo -e "\\033[0;31mReloading udev failed. You might need to reboot after installation.\\033[0m" 1>&2
 """
 
 #release = "1"

@@ -3,6 +3,6 @@ set -e
 
 # Honestly, it doesn't matter which 'phase' this is called, as we're ultimately not doing anything particularly
 # critical, or may need rolling back, or have different behaviour. So reload udev regardless.
-udevadm control --reload-rules
-udevadm trigger
+udevadm control --reload-rules || echo -e "\033[0;31mReloading udev failed. You might need to reboot after installation.\033[0m" 1>&2
+udevadm trigger || echo -e "\033[0;31mReloading udev failed. You might need to reboot after installation.\033[0m" 1>&2
 exit 0
